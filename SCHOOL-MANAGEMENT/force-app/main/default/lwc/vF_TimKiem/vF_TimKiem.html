@@ -1,0 +1,49 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <div class="body">
+        <div class="header">
+            <h1 class="title">TÌM KIẾM THÔNG TIN HỌC SINH</h1>
+        </div>
+        <div class="line"></div>
+        <div class="search-field">
+            <div class="field-left">
+                <div class="field-name">
+                    <label class="field-label" for="input-name">Tên học sinh:</label>
+                    <input type="text" id="input-name">
+                </div>
+                <div class="field-name">
+                    <!-- sldsValidatorIgnoreNextLine -->
+                    <label class="field-label" for="field-class">Lớp:</label>
+                    <select id="field-class">
+                        <option value="volvo">Lớp 1</option>
+                        <option value="saab">Lớp 2</option>
+                    </select>
+                </div>
+                <div class="field-name">
+                    <label class="field-label" for="start-date">Từ ngày:</label>
+                    <input type="date" id="start-date">
+                </div>
+                <div class="field-name">
+                    <label class="field-label" for="end-date">Đến ngày:</label>
+                    <input type="date" id="end-date">
+                </div>
+            </div>
+            <div class="field-right">
+                <div class="field-name">
+                    <label class="field-label" for="check-box">Sắp xếp tăng dần theo tên</label>
+                    <input type="checkbox" id="check-box" class="checkbox">
+                </div>
+            </div>
+        </div>
+        <div class="gruop-button">
+            <button>SEARCH</button>
+            <button>ADD NEW STUDENT</button>
+            <button>ADD NEW SUBJECT</button>
+            <button>DELETE</button>
+        </div>
+    </div>
+    <div class="line"></div>
+    <div class="table">
+        
+    </div>
+</template>
