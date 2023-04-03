@@ -41,9 +41,10 @@
             <button>ADD NEW SUBJECT</button>
             <button>DELETE</button>
         </div>
-    </div>
-    <div class="line"></div>
-    <div class="table">
-        
+        <div class="line"></div>
+        <template if:true={tableData}>
+            <lightning-datatable key-field="id" data={tableData} columns={columns}>
+            </lightning-datatable>
+        </template>
     </div>
 </template>
