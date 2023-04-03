@@ -9,7 +9,7 @@
             <div class="field-left">
                 <div class="field-name">
                     <label class="field-label" for="input-name">Tên học sinh:</label>
-                    <input type="text" id="input-name">
+                    <input type="text" id="input-name" name="studentName" onchange={handleChange}>
                 </div>
                 <div class="field-name">
                     <!-- sldsValidatorIgnoreNextLine -->
@@ -21,30 +21,39 @@
                 </div>
                 <div class="field-name">
                     <label class="field-label" for="start-date">Từ ngày:</label>
-                    <input type="date" id="start-date">
+                    <input type="date" id="start-date" name="startDate" onchange={handleChange}>
                 </div>
                 <div class="field-name">
                     <label class="field-label" for="end-date">Đến ngày:</label>
-                    <input type="date" id="end-date">
+                    <input type="date" id="end-date" name="endDate" onchange={handleChange}>
                 </div>
             </div>
             <div class="field-right">
                 <div class="field-name">
                     <label class="field-label" for="check-box">Sắp xếp tăng dần theo tên</label>
-                    <input type="checkbox" id="check-box" class="checkbox">
+                    <input type="checkbox" id="check-box" class="checkbox" name="sortResult" onchange={handleChange}>
                 </div>
             </div>
         </div>
         <div class="gruop-button">
-            <button>SEARCH</button>
+            <button onclick={handleSearch}>SEARCH</button>
             <button>ADD NEW STUDENT</button>
             <button>ADD NEW SUBJECT</button>
             <button>DELETE</button>
         </div>
         <div class="line"></div>
+        <template if:true={tableSize}> 
+            <p class="count-student">Số lượng: {tableSize}</p>
+        </template>
         <template if:true={tableData}>
-            <lightning-datatable key-field="id" data={tableData} columns={columns}>
+            <lightning-datatable key-field="id" data={tableData} columns={columns} onrowaction={handleRowAction}>
             </lightning-datatable>
         </template>
+        <div class="test">
+            <p>ten hoc sinh : {dataSearch.studentName}</p>
+            <p>tu ngay : {dataSearch.startDate}</p>
+            <p>den ngay : {dataSearch.endDate}</p>
+            <p>co sap xep khong : {dataSearch.sortResult}</p>
+        </div>
     </div>
 </template>
