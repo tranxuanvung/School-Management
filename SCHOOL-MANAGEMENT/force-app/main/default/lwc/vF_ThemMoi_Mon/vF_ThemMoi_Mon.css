@@ -1,0 +1,91 @@
+.body{
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.return a{
+    padding: 3px 0 3px 3px;
+    width: auto;
+    cursor: pointer;
+}
+.content{
+    max-width: 600px;
+    width: 600px;
+    background-color: #fff;
+}
+a{
+    display: block;
+}
+.header{
+    width: 100%;
+    background-color: #5e9fd6;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.title{
+    color: #fff;
+    font-weight: 700;
+    font-size: 24px;
+}
+.line-black{
+    border-bottom: 2px solid #000;
+}
+
+form{
+    padding: 10px calc(100% - 350px) 2px 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-end;
+}
+.form-item input,select,.input-checkbox{
+    width: 200px;
+    outline: none;
+    border: none;
+    border: 1px solid #9ec4e4;
+}
+.form-item{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.form-item label{
+    cursor: pointer;
+}
+.form-item .input-required{
+    border-left: 2px solid red;
+}
+.form-item .input-checkbox input{
+    width: auto;
+}
+.form-item .input-checkbox{
+    border: none;
+}
+.item-date{
+    position: relative;
+}
+.date-now{
+    position: absolute;
+    right: 0;
+    transform: translateX(110%);
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+.button button{
+    color: #fff;
+    padding: 3px 5px;
+    background-color: #5e9fd6;
+    border-radius: 4px;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}

@@ -14,9 +14,13 @@
                 <div class="field-name">
                     <!-- sldsValidatorIgnoreNextLine -->
                     <label class="field-label" for="field-class">Lớp:</label>
-                    <select id="field-class">
-                        <option value="volvo">Lớp 1</option>
-                        <option value="saab">Lớp 2</option>
+                    <select id="field-class" onchange={handleChange} name="classId">
+                        <option value="">None</option>
+                        <template if:true={classData}>
+                            <template for:each={classData} for:item="row">
+                                <option value={row.Id} key={row.Id}>{row.Name}</option>
+                            </template>
+                        </template>
                     </select>
                 </div>
                 <div class="field-name">
@@ -37,7 +41,7 @@
         </div>
         <div class="gruop-button">
             <button onclick={handleSearch}>SEARCH</button>
-            <button>ADD NEW STUDENT</button>
+            <button onclick={handleAdd}>ADD NEW STUDENT</button>
             <button>ADD NEW SUBJECT</button>
             <button>DELETE</button>
         </div>
@@ -49,11 +53,12 @@
             <lightning-datatable key-field="id" data={tableData} columns={columns} onrowaction={handleRowAction}>
             </lightning-datatable>
         </template>
-        <div class="test">
+        <!-- <div class="test">
             <p>ten hoc sinh : {dataSearch.studentName}</p>
             <p>tu ngay : {dataSearch.startDate}</p>
             <p>den ngay : {dataSearch.endDate}</p>
             <p>co sap xep khong : {dataSearch.sortResult}</p>
-        </div>
+            <p>classId : {dataSearch.classId}</p>
+        </div> -->
     </div>
 </template>

@@ -1,8 +1,10 @@
 import { LightningElement, track } from 'lwc';
-import LightningAlert from "lightning/alert";
+import LightningAlert from 'lightning/alert';
+import {NavigationMixin} from 'lightning/navigation';
 import {refreshApex} from '@salesforce/apex';
 import getHocSinh from '@salesforce/apex/tableController.getHocSinh';
 import getSearchResult from '@salesforce/apex/searchController.getSearchResult';
+import getClassData from '@salesforce/apex/getClassDataController.getClassData';
 
 const actions = [
     { label: 'Cập nhật', name: 'update' },
@@ -23,16 +25,24 @@ const COLUMNS = [
 ];
 
 
-export default class VF_TimKiem extends LightningElement {
+export default class VF_TimKiem extends NavigationMixin(LightningElement) {
     tableData
     tableSize
+    classData
     columns = COLUMNS
-    @track dataSearch = {studentName: "", startDate: null, endDate: null, sortResult: ""}
+    @track dataSearch = {studentName: "", startDate: null, endDate: null, sortResult: "", classId: null};
 
     connectedCallback(){
         getHocSinh().then(res => {
             this.tableData = this.convertData(res);
             this.tableSize = res.length;
+            console.log(res);
+        }).catch(error => {
+            console.log(error);
+        });
+
+        getClassData().then(res => {
+            this.classData = res;
             console.log(res);
         }).catch(error => {
             console.log(error);
@@ -53,6 +63,9 @@ export default class VF_TimKiem extends LightningElement {
         if(field === 'sortResult'){
             this.dataSearch.sortResult = event.target.checked;
         }
+        if(field === 'classId'){
+            this.dataSearch.classId = event.target.value;
+        }
     }
 
     handleSearch(event){
@@ -62,14 +75,14 @@ export default class VF_TimKiem extends LightningElement {
         // 1. Chưa nhập bất kỳ trường nào
         // 2. Tên rỗng nhưng một trong 2 trường startDate và endDate khác rỗng
         // 3. Tên khác rỗng nhưng một trong 2 trường startDate và endDate khác rỗng
-        if(searchData.studentName == '' && searchData.startDate == null && searchData.endDate == null || searchData.studentName == '' && searchData.startDate != null && searchData.endDate == null || searchData.studentName == '' && searchData.startDate == null && searchData.endDate != null || searchData.studentName != '' && searchData.startDate != null && searchData.endDate == null || searchData.studentName != '' && searchData.startDate == null && searchData.endDate != null){
+        if(searchData.studentName == '' && searchData.startDate == null && searchData.endDate == null && searchData.classId == null || searchData.studentName == '' && searchData.startDate != null && searchData.endDate == null || searchData.studentName == '' && searchData.startDate == null && searchData.endDate != null || searchData.studentName != '' && searchData.startDate != null && searchData.endDate == null || searchData.studentName != '' && searchData.startDate == null && searchData.endDate != null){
             LightningAlert.open({
                 message: "Chưa nhập điều kiện tìm kiếm",
                 theme: "error",
                 label: "Thông báo lỗi"
             });
         }else{
-            getSearchResult({studentName: searchData.studentName,startDate: searchData.startDate,endDate: searchData.endDate,sortResult: searchData.sortResult}).then(res => {
+            getSearchResult({studentName: searchData.studentName,startDate: searchData.startDate,endDate: searchData.endDate,sortResult: searchData.sortResult, classId: searchData.classId}).then(res => {
                 console.log(res);
                 if(res.length == 0){
                     LightningAlert.open({
@@ -83,12 +96,14 @@ export default class VF_TimKiem extends LightningElement {
                     this.tableSize = this.tableData.length;
                     return refreshApex(this.tableData);
                 }
-                
             }).catch(error => {
                 console.log(error);
             })
         }
-        
+    }
+
+    handleAdd(event){
+        window.location.href = '/lightning/n/Add_Student';
     }
 
     // convert data trả về
