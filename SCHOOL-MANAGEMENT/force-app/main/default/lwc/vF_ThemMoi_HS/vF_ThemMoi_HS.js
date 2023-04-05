@@ -67,6 +67,7 @@ export default class VF_ThemMoi_HS extends LightningElement {
             }
             // console.log(id);
             addNewStudent({firstName: this.dataChange.firstname, lastName: this.dataChange.lastname, gender: this.dataChange.gender, birthday: this.convertAndCheckDate(this.dataChange.birthday).date, classId: id}).then(res => {
+                console.log(res);
                 if(res != null){
                     LightningAlert.open({
                         message: "Thêm học sinh thành công",
@@ -79,7 +80,7 @@ export default class VF_ThemMoi_HS extends LightningElement {
             }).catch(error => {
                 console.log(error);
                 LightningAlert.open({
-                    message: "Đã có lỗi trong quá trinhf xử lý",
+                    message: "Đã có lỗi trong quá trình xử lý",
                     theme: "error",
                     label: "Thông báo lỗi"
                 }).then(res => {

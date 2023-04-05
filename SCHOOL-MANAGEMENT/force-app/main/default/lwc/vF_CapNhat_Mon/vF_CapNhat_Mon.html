@@ -6,43 +6,40 @@
                 <a href="/lightning/page/home">Return</a>
             </div>
             <div class="header">
-                <h1 class="title">THÊM MỚI MÔN HỌC</h1>
+                <h1 class="title">CẬP NHẬT MÔN HỌC</h1>
             </div>
             <div class="line-black"></div>
             <form action="">
                 <div class="form-item">
                     <label class="item-label" for="first-name">Học sinh:</label>
-                    <lightning-record-edit-form object-api-name="Mon__c">
-                        <lightning-input-field field-name="HocSinh__c" variant = "label-hidden" name="idStudent" onchange={handleChange}> </lightning-input-field>
-                    </lightning-record-edit-form>
+                    <p class="student-name">{studentName}</p>
                 </div>
                 <div class="form-item">
                     <label class="item-label" for="name">Môn:</label>
-                    <input type="text" id="name" name="name" onchange={handleChange} class="input-required">
+                    <input type="text" id="name" name="name" onchange={handleChange} class="input-required input">
                 </div>
                 <div class="form-item">
                     <label class="item-label" for="score">Điểm KT Miệng:</label>
-                    <input type="text" id="score" name="score" onchange={handleChange}>
+                    <input type="text" id="score" name="score" onchange={handleChange} class="input">
                 </div>
                 <div class="form-item">
                     <label class="item-label" for="score15">Điểm 15p:</label>
-                    <input type="text" id="score15" name="score15" onchange={handleChange}>
+                    <input type="text" id="score15" name="score15" onchange={handleChange} class="input">
                 </div>
                 <div class="form-item">
                     <label class="item-label" for="score45">Điểm 45p:</label>
-                    <input type="text" id="score45" name="score45" onchange={handleChange}>
+                    <input type="text" id="score45" name="score45" onchange={handleChange} class="input">
                 </div>
             </form>
             <div class="button">
-                <button onclick={handleSave}>Save</button>
+                <button onclick={handleUpdate}>Update Subject</button>
             </div>
-            <!-- <div class="test">
-                <p>Ten hoc sinh : {dataChange.idStudent}</p>
-                <p>Ho hoc sinh : {dataChange.name}</p>
-                <p>Gioi tinh : {dataChange.score}</p>
-                <p>Ngay sinh : {dataChange.score15}</p>
-                <p>class Id : {dataChange.score45}</p>
-            </div> -->
+            <div class="test">
+                <p>Mon : {dataChange.name}</p>
+                <p>Diem mieng : {dataChange.score}</p>
+                <p>Diem 15 : {dataChange.score15}</p>
+                <p>Diem 45 : {dataChange.score45}</p>
+            </div>
         </div>
     </div>
 </template>

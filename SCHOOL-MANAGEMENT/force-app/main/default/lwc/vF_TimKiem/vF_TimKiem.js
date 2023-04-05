@@ -7,7 +7,7 @@ import getSearchResult from '@salesforce/apex/searchController.getSearchResult';
 import getClassData from '@salesforce/apex/getClassDataController.getClassData';
 
 const actions = [
-    { label: 'Cập nhật', name: 'update' },
+    { label: 'Cập nhật', name: 'update'},
     { label: 'xóa', name: 'delete' },
 ];
 const COLUMNS = [
@@ -106,6 +106,10 @@ export default class VF_TimKiem extends NavigationMixin(LightningElement) {
         window.location.href = '/lightning/n/Add_Student';
     }
 
+    handleAddSub(event){
+        window.location.href = '/lightning/n/Add_Subject';
+    }
+
     // convert data trả về
     convertData(res){
         let tempData = JSON.parse(JSON.stringify(res));
@@ -133,13 +137,15 @@ export default class VF_TimKiem extends NavigationMixin(LightningElement) {
 
     handleRowAction(event) {
         const actionName = event.detail.action.name;
-        const row = event.detail.row;
+        const row = JSON.parse(JSON.stringify(event.detail.row));
         switch (actionName) {
             case 'delete':
-                // this.deleteRow(row);
+                console.log(row.Id);
                 break;
             case 'update':
-                // this.showRowDetails(row);
+                localStorage.setItem("studentId", row.Id);
+                window.location.href = '/lightning/n/Update_Student';
+                console.log(row.Id);
                 break;
             default:
         }

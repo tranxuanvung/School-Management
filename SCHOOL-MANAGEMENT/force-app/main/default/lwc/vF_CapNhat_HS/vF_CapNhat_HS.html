@@ -1,0 +1,60 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <div class="body">
+        <div class="content">
+            <div class="return">
+                <a href="/lightning/page/home">Return</a>
+            </div>
+            <div class="header">
+                <h1 class="title">CẬP NHẬT THÔNG TIN HỌC SINH</h1>
+            </div>
+            <div class="line-black"></div>
+            <form action="">
+                <div class="form-item">
+                    <label class="item-label" for="last-name">Họ học sinh:</label>
+                    <input type="text" id="last-name" name="lastname" onchange={handleChange} class="input-required input">
+                </div>
+                <div class="form-item">
+                    <label class="item-label" for="first-name">Tên học sinh:</label>
+                    <input type="text" id="first-name" name="firstname" onchange={handleChange} class="input-required input">
+                </div>
+                <div class="form-item">
+                    <label class="item-label" for="check-box">Giới tính</label>
+                    <div class="input-checkbox">
+                        <input type="checkbox" id="check-box" class="checkbox input" name="gender" onchange={handleChange}>
+                    </div>
+                </div>
+                <div class="form-item item-date">
+                    <label class="item-label" for="birthday">Ngày sinh:</label>
+                    <input type="text" id="birthday" name="birthday" onchange={handleChange} class="input">
+                    <span class="date-now">[4/4/2023]</span>
+                </div>
+                <div class="form-item">
+                    <label class="item-label" for="select">Lớp:</label>
+                    <p class="className">{className}</p>
+                    <!-- <select id="select" class="form-item input" onchange={handleChange} name="classId">
+                        <template if:true={classData}>
+                            <template for:each={classData} for:item="row">
+                                <option value={row.Id} key={row.Id}>{row.Name}</option>
+                            </template>
+                        </template>
+                    </select> -->
+                </div>
+            </form>
+            <div class="button">
+                <button onclick={handleUpdate}>Update Student</button>
+            </div>
+            <div class="line-black"></div>
+            <template if:true={subjectData}>
+                <lightning-datatable key-field="id" data={subjectData} columns={columns} onrowaction={handleRowAction}>
+                </lightning-datatable>
+            </template>
+            <!-- <div class="test">
+                <p>Ten hoc sinh : {dataChange.firstname}</p>
+                <p>Ho hoc sinh : {dataChange.lastname}</p>
+                <p>Gioi tinh : {dataChange.gender}</p>
+                <p>Ngay sinh : {dataChange.birthday}</p>
+            </div> -->
+        </div>
+    </div>
+</template>
