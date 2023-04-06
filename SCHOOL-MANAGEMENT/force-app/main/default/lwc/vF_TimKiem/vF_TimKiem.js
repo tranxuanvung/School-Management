@@ -1,10 +1,12 @@
 import { LightningElement, track } from 'lwc';
 import LightningAlert from 'lightning/alert';
+import LightningConfirm from 'lightning/confirm';
 import {NavigationMixin} from 'lightning/navigation';
 import {refreshApex} from '@salesforce/apex';
 import getHocSinh from '@salesforce/apex/tableController.getHocSinh';
 import getSearchResult from '@salesforce/apex/searchController.getSearchResult';
 import getClassData from '@salesforce/apex/getClassDataController.getClassData';
+import deleteStudent from '@salesforce/apex/deleteStudentController.deleteStudent';
 
 const actions = [
     { label: 'Cập nhật', name: 'update'},
@@ -135,12 +137,51 @@ export default class VF_TimKiem extends NavigationMixin(LightningElement) {
         return tempData;
     }
 
-    handleRowAction(event) {
+    async handleRowAction(event) {
         const actionName = event.detail.action.name;
         const row = JSON.parse(JSON.stringify(event.detail.row));
         switch (actionName) {
             case 'delete':
-                console.log(row.Id);
+                await LightningConfirm.open({
+                    message: `Bạn có muốn xóa học sinh ${row.Name} không?`,
+                    theme: "success",
+                    label: "Xác nhận xóa"
+                }).then(res => {
+                    if(res){
+                        deleteStudent({studentId: row.Id}).then(res => {
+                            console.log(res);
+                            if(res){
+                                LightningAlert.open({
+                                    message: "Xóa học sinh thành công",
+                                    theme: "success",
+                                    label: "Thông báo kết quả"
+                                });
+                                getHocSinh().then(res => {
+                                    console.log(res);
+                                    this.tableData = this.convertData(res);
+                                    this.tableSize = this.tableData.length;
+                                    return refreshApex(this.tableData);
+                                }).catch(error => {
+                                    console.log(error);
+                                })
+                            }else{
+                                LightningAlert.open({
+                                    message: "Đã có lỗi trong quá trình xử lý",
+                                    theme: "error",
+                                    label: "Thông báo lỗi"
+                                });
+                            }
+                        }).catch(error => {
+                            console.log(error);
+                            LightningAlert.open({
+                                message: "Đã có lỗi trong quá trình xử lý",
+                                theme: "error",
+                                label: "Thông báo lỗi"
+                            });
+                        })
+                    }
+                })
+                console.log(row);
                 break;
             case 'update':
                 localStorage.setItem("studentId", row.Id);
