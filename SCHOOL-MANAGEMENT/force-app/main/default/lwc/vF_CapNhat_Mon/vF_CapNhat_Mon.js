@@ -2,7 +2,9 @@ import { LightningElement, track } from 'lwc';
 import LightningAlert from 'lightning/alert';
 import getSubject from '@salesforce/apex/getSubjectByIdController.getSubject';
 import updateSubject from '@salesforce/apex/updateSubjectController.updateSubject';
-export default class VF_CapNhat_Mon extends LightningElement {
+import {NavigationMixin} from 'lightning/navigation';
+
+export default class VF_CapNhat_Mon extends NavigationMixin(LightningElement) {
     subjectId
     studentName
     @track dataChange = {name: null, score: 0, score15: 0, score45: 0};
@@ -69,7 +71,17 @@ export default class VF_CapNhat_Mon extends LightningElement {
                         theme: "success",
                         label: "Thông báo"
                     }).then(res => {
-                        window.location.href = '/lightning/n/Update_Student';
+                        // window.location.href = '/lightning/n/Update_Student';
+
+                        this[NavigationMixin.Navigate]({
+                            type: 'standard__navItemPage',
+                            attributes: {
+                                // CustomTabs from managed packages are identified by their
+                                // namespace prefix followed by two underscores followed by the
+                                // developer name. E.g. 'namespace__TabName'
+                                apiName: 'Update_Student'
+                            }
+                        });
                     })
                 }else{
                     LightningAlert.open({
@@ -77,7 +89,17 @@ export default class VF_CapNhat_Mon extends LightningElement {
                         theme: "error",
                         label: "Thông báo lỗi"
                     }).then(res => {
-                        window.location.href = '/lightning/n/Update_Student';
+                        // window.location.href = '/lightning/n/Update_Student';
+
+                        this[NavigationMixin.Navigate]({
+                            type: 'standard__navItemPage',
+                            attributes: {
+                                // CustomTabs from managed packages are identified by their
+                                // namespace prefix followed by two underscores followed by the
+                                // developer name. E.g. 'namespace__TabName'
+                                apiName: 'Update_Student'
+                            }
+                        });
                     })
                     console.log(error);
                 }
@@ -87,7 +109,17 @@ export default class VF_CapNhat_Mon extends LightningElement {
                     theme: "error",
                     label: "Thông báo lỗi"
                 }).then(res => {
-                    window.location.href = '/lightning/n/Update_Student';
+                    // window.location.href = '/lightning/n/Update_Student';
+
+                    this[NavigationMixin.Navigate]({
+                        type: 'standard__navItemPage',
+                        attributes: {
+                            // CustomTabs from managed packages are identified by their
+                            // namespace prefix followed by two underscores followed by the
+                            // developer name. E.g. 'namespace__TabName'
+                            apiName: 'Update_Student'
+                        }
+                    });
                 })
                 console.log(error);
             })

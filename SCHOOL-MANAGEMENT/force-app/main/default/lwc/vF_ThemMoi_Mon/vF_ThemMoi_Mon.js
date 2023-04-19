@@ -1,7 +1,8 @@
 import { LightningElement, track} from 'lwc';
 import LightningAlert from 'lightning/alert';
 import addNewSubject from '@salesforce/apex/addNewSubjectController.addNewSubject';
-export default class VF_ThemMoi_Mon extends LightningElement {
+import {NavigationMixin} from 'lightning/navigation';
+export default class VF_ThemMoi_Mon extends NavigationMixin(LightningElement) {
     @track dataChange = {idStudent: null, name: null, score: 0, score15: 0, score45: 0};
 
     handleChange(event){
@@ -39,7 +40,17 @@ export default class VF_ThemMoi_Mon extends LightningElement {
                         theme: "success",
                         label: "Thông báo"
                     }).then(res => {
-                        window.location.href = '/lightning/page/home';
+                        // window.location.href = '/lightning/page/home';
+
+                        this[NavigationMixin.Navigate]({
+                            type: 'standard__app',
+                            attributes: {
+                                // CustomTabs from managed packages are identified by their
+                                // namespace prefix followed by two underscores followed by the
+                                // developer name. E.g. 'namespace__TabName'
+                                // appTarget: 'Student_Management'
+                            }
+                        });
                     })
                 }else{
                     LightningAlert.open({
@@ -47,7 +58,17 @@ export default class VF_ThemMoi_Mon extends LightningElement {
                         theme: "error",
                         label: "Thông báo lỗi"
                     }).then(res => {
-                        window.location.href = '/lightning/page/home';
+                        // window.location.href = '/lightning/page/home';
+
+                        this[NavigationMixin.Navigate]({
+                            type: 'standard__app',
+                            attributes: {
+                                // CustomTabs from managed packages are identified by their
+                                // namespace prefix followed by two underscores followed by the
+                                // developer name. E.g. 'namespace__TabName'
+                                // appTarget: 'Student_Management'
+                            }
+                        });
                     })
                     console.log(error);
                 }
@@ -57,7 +78,17 @@ export default class VF_ThemMoi_Mon extends LightningElement {
                     theme: "error",
                     label: "Thông báo lỗi"
                 }).then(res => {
-                    window.location.href = '/lightning/page/home';
+                    // window.location.href = '/lightning/page/home';
+
+                    this[NavigationMixin.Navigate]({
+                        type: 'standard__app',
+                        attributes: {
+                            // CustomTabs from managed packages are identified by their
+                            // namespace prefix followed by two underscores followed by the
+                            // developer name. E.g. 'namespace__TabName'
+                            // appTarget: 'Student_Management'
+                        }
+                    });
                 })
                 console.log(error);
             })

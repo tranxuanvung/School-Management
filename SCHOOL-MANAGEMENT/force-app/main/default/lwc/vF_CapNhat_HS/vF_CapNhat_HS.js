@@ -2,6 +2,7 @@ import { LightningElement, track } from 'lwc';
 import LightningAlert from 'lightning/alert';
 import getStudent from '@salesforce/apex/getStudentByIdController.getStudent';
 import updateStudent from '@salesforce/apex/updateStudentController.updateStudent';
+import {NavigationMixin} from 'lightning/navigation';
 
 const actions = [
     { label: 'Cập nhật', name: 'update'},
@@ -18,7 +19,7 @@ const COLUMNS = [
     },
 ];
 
-export default class VF_CapNhat_HS extends LightningElement {
+export default class VF_CapNhat_HS extends NavigationMixin(LightningElement) {
     columns = COLUMNS
     studentId
     subjectData
@@ -98,7 +99,17 @@ export default class VF_CapNhat_HS extends LightningElement {
                             theme: "success",
                             label: "Thông báo"
                         }).then(res => {
-                            window.location.href = '/lightning/page/home';
+                            // window.location.href = '/lightning/page/home';
+
+                            this[NavigationMixin.Navigate]({
+                                type: 'standard__app',
+                                attributes: {
+                                    // CustomTabs from managed packages are identified by their
+                                    // namespace prefix followed by two underscores followed by the
+                                    // developer name. E.g. 'namespace__TabName'
+                                    // appTarget: 'Student_Management'
+                                }
+                            });
                         })
                     }else{
                         LightningAlert.open({
@@ -106,7 +117,17 @@ export default class VF_CapNhat_HS extends LightningElement {
                             theme: "error",
                             label: "Thông báo lỗi"
                         }).then(res => {
-                            window.location.href = '/lightning/page/home';
+                            // window.location.href = '/lightning/page/home';
+
+                            this[NavigationMixin.Navigate]({
+                                type: 'standard__app',
+                                attributes: {
+                                    // CustomTabs from managed packages are identified by their
+                                    // namespace prefix followed by two underscores followed by the
+                                    // developer name. E.g. 'namespace__TabName'
+                                    // appTarget: 'Student_Management'
+                                }
+                            });
                         })
                     }
                 }).catch(error => {
@@ -116,7 +137,17 @@ export default class VF_CapNhat_HS extends LightningElement {
                         theme: "error",
                         label: "Thông báo lỗi"
                     }).then(res => {
-                        window.location.href = '/lightning/page/home';
+                        // window.location.href = '/lightning/page/home';
+
+                        this[NavigationMixin.Navigate]({
+                            type: 'standard__app',
+                            attributes: {
+                                // CustomTabs from managed packages are identified by their
+                                // namespace prefix followed by two underscores followed by the
+                                // developer name. E.g. 'namespace__TabName'
+                                // appTarget: 'Student_Management'
+                            }
+                        });
                     })
                 })
             }
@@ -129,7 +160,17 @@ export default class VF_CapNhat_HS extends LightningElement {
         const row = JSON.parse(JSON.stringify(event.detail.row));
         if(actionName == 'update'){
             localStorage.setItem("subjectId", row.Id);
-            window.location.href = '/lightning/n/Update_Subject';
+            // window.location.href = '/lightning/n/Update_Subject';
+
+            this[NavigationMixin.Navigate]({
+                type: 'standard__navItemPage',
+                attributes: {
+                    // CustomTabs from managed packages are identified by their
+                    // namespace prefix followed by two underscores followed by the
+                    // developer name. E.g. 'namespace__TabName'
+                    apiName: 'Update_Subject'
+                }
+            });
         }
     }
 

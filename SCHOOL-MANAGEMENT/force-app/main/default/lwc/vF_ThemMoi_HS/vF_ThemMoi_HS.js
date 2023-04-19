@@ -2,8 +2,9 @@ import { LightningElement, track} from 'lwc';
 import LightningAlert from 'lightning/alert';
 import getClassData from '@salesforce/apex/getClassDataController.getClassData';
 import addNewStudent from '@salesforce/apex/addNewStudentController.addNewStudent';
+import {NavigationMixin} from 'lightning/navigation';
 
-export default class VF_ThemMoi_HS extends LightningElement {
+export default class VF_ThemMoi_HS extends NavigationMixin(LightningElement) {
     // lưu giá trị id và name của các class để truyền vào filed select lớp
     dataClass
 
@@ -74,7 +75,18 @@ export default class VF_ThemMoi_HS extends LightningElement {
                         theme: "success",
                         label: "Thông báo"
                     }).then(res => {
-                        window.location.href = '/lightning/page/home';
+                        // window.location.href = '/lightning/page/home';
+
+                        // Navigate to a specific CustomTab.
+                        this[NavigationMixin.Navigate]({
+                            type: 'standard__app',
+                            attributes: {
+                                // CustomTabs from managed packages are identified by their
+                                // namespace prefix followed by two underscores followed by the
+                                // developer name. E.g. 'namespace__TabName'
+                                // appTarget: 'Student_Management'
+                            }
+                        });
                     })
                 }
             }).catch(error => {
@@ -84,7 +96,16 @@ export default class VF_ThemMoi_HS extends LightningElement {
                     theme: "error",
                     label: "Thông báo lỗi"
                 }).then(res => {
-                    window.location.href = '/lightning/page/home';
+                    // window.location.href = '/lightning/page/home';
+                    this[NavigationMixin.Navigate]({
+                        type: 'standard__app',
+                        attributes: {
+                            // CustomTabs from managed packages are identified by their
+                            // namespace prefix followed by two underscores followed by the
+                            // developer name. E.g. 'namespace__TabName'
+                            // appTarget: 'Student_Management'
+                        }
+                    });
                 })
             })
         }

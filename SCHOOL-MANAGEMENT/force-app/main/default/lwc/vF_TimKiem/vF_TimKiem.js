@@ -70,14 +70,45 @@ export default class VF_TimKiem extends NavigationMixin(LightningElement) {
         }
     }
 
+    // Xử lý tìm kiếm 
+    // handleSearch(event){
+    //     let tempData = [];
+    //     const searchData = JSON.parse(JSON.stringify(this.dataSearch));
+    //     // Hiển thị alert cho những trường hợp sau
+    //     // 1. Chưa nhập bất kỳ trường nào
+    //     // 2. Tên rỗng nhưng một trong 2 trường startDate và endDate khác rỗng
+    //     // 3. Tên khác rỗng nhưng một trong 2 trường startDate và endDate khác rỗng
+    //     if(searchData.studentName == '' && searchData.startDate == null && searchData.endDate == null && searchData.classId == null || searchData.studentName == '' && searchData.startDate != null && searchData.endDate == null || searchData.studentName == '' && searchData.startDate == null && searchData.endDate != null || searchData.studentName != '' && searchData.startDate != null && searchData.endDate == null || searchData.studentName != '' && searchData.startDate == null && searchData.endDate != null){
+    //         LightningAlert.open({
+    //             message: "Chưa nhập điều kiện tìm kiếm",
+    //             theme: "error",
+    //             label: "Thông báo lỗi"
+    //         });
+    //     }else{
+    //         getSearchResult({studentName: searchData.studentName,startDate: searchData.startDate,endDate: searchData.endDate,sortResult: searchData.sortResult, classId: searchData.classId}).then(res => {
+    //             console.log(res);
+    //             if(res.length == 0){
+    //                 LightningAlert.open({
+    //                     message: "Không có thông tin học sinh nào thỏa mãn những điều kiện trên",
+    //                     theme: "error",
+    //                     label: "Thông báo kết quả"
+    //                 });
+    //             }
+    //             if(res != null){
+    //                 this.tableData = this.convertData(res);
+    //                 this.tableSize = this.tableData.length;
+    //                 return refreshApex(this.tableData);
+    //             }
+    //         }).catch(error => {
+    //             console.log(error);
+    //         })
+    //     }
+    // }
     handleSearch(event){
         let tempData = [];
         const searchData = JSON.parse(JSON.stringify(this.dataSearch));
-        // Hiển thị alert cho những trường hợp sau
-        // 1. Chưa nhập bất kỳ trường nào
-        // 2. Tên rỗng nhưng một trong 2 trường startDate và endDate khác rỗng
-        // 3. Tên khác rỗng nhưng một trong 2 trường startDate và endDate khác rỗng
-        if(searchData.studentName == '' && searchData.startDate == null && searchData.endDate == null && searchData.classId == null || searchData.studentName == '' && searchData.startDate != null && searchData.endDate == null || searchData.studentName == '' && searchData.startDate == null && searchData.endDate != null || searchData.studentName != '' && searchData.startDate != null && searchData.endDate == null || searchData.studentName != '' && searchData.startDate == null && searchData.endDate != null){
+        // Nếu không có bất kỳ trường nào được điền thì thông báo alert cho người dùng
+        if(searchData.studentName == '' && searchData.startDate == null && searchData.endDate == null && searchData.classId == null){
             LightningAlert.open({
                 message: "Chưa nhập điều kiện tìm kiếm",
                 theme: "error",
@@ -85,7 +116,7 @@ export default class VF_TimKiem extends NavigationMixin(LightningElement) {
             });
         }else{
             getSearchResult({studentName: searchData.studentName,startDate: searchData.startDate,endDate: searchData.endDate,sortResult: searchData.sortResult, classId: searchData.classId}).then(res => {
-                console.log(res);
+                // console.log(res);
                 if(res.length == 0){
                     LightningAlert.open({
                         message: "Không có thông tin học sinh nào thỏa mãn những điều kiện trên",
@@ -103,13 +134,33 @@ export default class VF_TimKiem extends NavigationMixin(LightningElement) {
             })
         }
     }
-
+    // chuyển sang trang thêm nhân viên
     handleAdd(event){
-        window.location.href = '/lightning/n/Add_Student';
+        // window.location.href = '/lightning/n/Add_Student';
+        // Navigate to a specific CustomTab.
+        this[NavigationMixin.Navigate]({
+            type: 'standard__navItemPage',
+            attributes: {
+                // CustomTabs from managed packages are identified by their
+                // namespace prefix followed by two underscores followed by the
+                // developer name. E.g. 'namespace__TabName'
+                apiName: 'Add_Student'
+            }
+        });
     }
 
+    // chuyển sang trang thêm môn học
     handleAddSub(event){
-        window.location.href = '/lightning/n/Add_Subject';
+        // window.location.href = '/lightning/n/Add_Subject';
+        this[NavigationMixin.Navigate]({
+            type: 'standard__navItemPage',
+            attributes: {
+                // CustomTabs from managed packages are identified by their
+                // namespace prefix followed by two underscores followed by the
+                // developer name. E.g. 'namespace__TabName'
+                apiName: 'Add_Subject'
+            }
+        });
     }
 
     // convert data trả về
@@ -137,6 +188,7 @@ export default class VF_TimKiem extends NavigationMixin(LightningElement) {
         return tempData;
     }
 
+    // Xử lý các button xóa và sửa trong datatable
     async handleRowAction(event) {
         const actionName = event.detail.action.name;
         const row = JSON.parse(JSON.stringify(event.detail.row));
@@ -185,7 +237,18 @@ export default class VF_TimKiem extends NavigationMixin(LightningElement) {
                 break;
             case 'update':
                 localStorage.setItem("studentId", row.Id);
-                window.location.href = '/lightning/n/Update_Student';
+                // window.location.href = '/lightning/n/Update_Student';
+                
+                // Navigate to a specific CustomTab.
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__navItemPage',
+                    attributes: {
+                        // CustomTabs from managed packages are identified by their
+                        // namespace prefix followed by two underscores followed by the
+                        // developer name. E.g. 'namespace__TabName'
+                        apiName: 'Update_Student'
+                    }
+                });
                 console.log(row.Id);
                 break;
             default:
