@@ -7,6 +7,7 @@ import getHocSinh from '@salesforce/apex/tableController.getHocSinh';
 import getSearchResult from '@salesforce/apex/searchController.getSearchResult';
 import getClassData from '@salesforce/apex/getClassDataController.getClassData';
 import deleteStudent from '@salesforce/apex/deleteStudentController.deleteStudent';
+import deleteStudents from '@salesforce/apex/deleteStudentController.deleteStudents';
 
 const actions = [
     { label: 'Cập nhật', name: 'update'},
@@ -252,6 +253,62 @@ export default class VF_TimKiem extends NavigationMixin(LightningElement) {
                 console.log(row.Id);
                 break;
             default:
+        }
+    }
+
+    deleteRecords(event){
+        let selectedRecords =  this.template.querySelector("lightning-datatable").getSelectedRows();
+        selectedRecords = JSON.parse(JSON.stringify(selectedRecords));
+        let listId = [];
+        selectedRecords.map(item => {
+            listId.push(item.Id);
+        })
+        if(listId.length != 0){
+            LightningConfirm.open({
+                message: `Bạn có muốn xóa học sinh đã chọn không?`,
+                theme: "success",
+                label: "Xác nhận xóa"
+            }).then(res => {
+                if(res){
+                    deleteStudents({students: listId}).then(res => {
+                        console.log(res);
+                        if(res){
+                            LightningAlert.open({
+                                message: "Xóa học sinh thành công",
+                                theme: "success",
+                                label: "Thông báo kết quả"
+                            });
+                            getHocSinh().then(res => {
+                                console.log(res);
+                                this.tableData = this.convertData(res);
+                                this.tableSize = this.tableData.length;
+                                return refreshApex(this.tableData);
+                            }).catch(error => {
+                                console.log(error);
+                            })
+                        }else{
+                            LightningAlert.open({
+                                message: "Đã có lỗi trong quá trình xử lý",
+                                theme: "error",
+                                label: "Thông báo lỗi"
+                            });
+                        }
+                    }).catch(error => {
+                        console.log(error);
+                        LightningAlert.open({
+                            message: "Đã có lỗi trong quá trình xử lý",
+                            theme: "error",
+                            label: "Thông báo lỗi"
+                        });
+                    })
+                }
+            })
+        }else{
+            LightningAlert.open({
+                message: "Bạn chưa chọn học sinh cần xóa",
+                theme: "error",
+                label: "Thông báo lỗi"
+            });
         }
     }
 }

@@ -13,4 +13,19 @@ public with sharing class deleteStudentController {
         }
         return false;
     }
+
+    @AuraEnabled
+    public static Boolean deleteStudents(List<Id> students){
+        List<HocSinh__c> listStudents = [Select Id, Name from HocSinh__c where Id in :students];
+        if(listStudents != null){
+            try {
+                delete listStudents;
+                return true;
+            } catch (DmlException e) {
+                System.debug('Đã xảy ra lỗi: ' + e.getMessage());
+                return false;
+            }
+        }
+        return false;
+    }
 }
